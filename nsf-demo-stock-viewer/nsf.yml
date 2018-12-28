@@ -1,7 +1,7 @@
 nsf:
   #  基本信息
   application:
-    name: nsf-demo-stock-viewer-zl
+    name: nsf-demo-stock-viewer-cliu8
     version: 0.0.1
     desc: this is service description
 
@@ -30,7 +30,7 @@ nsf:
     
   config:
     enable: true
-    appId: nsf-demo-stock-viewer-zl
+    appId: nsf-demo-stock-viewer-cliu8
     env: dev
     server: http://nsf-config-service-inner.v181108.163skiff.com
     namespaces:
