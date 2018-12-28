@@ -1,7 +1,7 @@
 nsf:
   #  基本信息
   application:
-    name: nsf-demo-stock-advisor-zjf
+    name: nsf-demo-stock-advisor-cliu8
     version: 0.0.1
     desc: this is service description
 
@@ -30,7 +30,7 @@ nsf:
     
   config:
     enable: false
-    appId: nsf-demo-stock-advisor-zjf
+    appId: nsf-demo-stock-advisor-cliu8
     env: dev
     server: http://10.182.2.107:10780/
     namespaces:
