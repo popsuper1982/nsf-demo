@@ -1,39 +1,29 @@
 nsf:
-  #  基本信息
+  type: http
+  version: '2.0'
+  nsfServer: 'http://nsf-server.v190808.163skiff.com'
   application:
-    name: nsf-demo-stock-viewer-zjf
-    version: 0.0.1
-    desc: this is service description
-
-  # agent配置
-  server:
-    enable: true # 是否启用NSF Server控制中心, 默认关闭
-    address: grpc://10.0.0.2:8981
-
-  #  注册中心
-  registry:
-    enable: true # 是否启用eureka注册发现服务, 默认关闭
-    address: http://10.0.0.3:9999/eureka/,http://10.0.0.4:9999/eureka/
-
-  # 应用监控
-  metrics:
-    enable: true # 是否启用hystrix的metrics应用监控
-
-  # 服务鉴权配置
+    name: nsf-demo-stock-viewer-test
+    version: 1.0.0
+    projectCode: zjrb-p
   authority:
-    #认证中心地址
-    server: http://service-auth-inner.v181108.163skiff.com
-    #访问重试次数(仅403状态会重试，默认为 3 )
-    retry: 3
-    accessKey: 874f3a47e81e47f7ba82120d8cf6cb0c
-    secretKey: b0a198324c704a4292f5f86c2105be3c
-    
+    accessKey: a8f6589edaf742a7a3088a50a318e683
+    secretKey: 9e88974731544a1d8b80a340ab864317
+  manager:
+    patterns:
+      - className: com.netease.cloud.nsf.demo.stock.viewer.web.service.impl.*
   config:
     enable: true
-    appId: nsf-demo-stock-viewer-zjf
+    appId: stock-viewer-test
     env: dev
-    server: http://nsf-config-service-inner.v181108.163skiff.com
     namespaces:
       - name: application
-      - name: application
         Public: true
+  log:
+    mode: user  #日志输出模式,默认user. all -都输出  nsf -agent自己处理自己的日志  user -统一输出到用户日志下
+    #path: /Users/magi/Git/nsf-demo-stock/logs  # 日志存放目录
+    level: error # 日志等级 默认info
+    #timePattern: yyyy-MM-dd # 影响日志文件的命名。默认为 yyyy-MM-dd 即每天一个，yyyy-MM-dd_HH 为每小时
+    #maxFileSize: 1GB # 日志文件大小  默认1GB
+    #maxHistory: 15 #最大的存放时间，默认 30. 单位与timePattern设置有关，timePattern为每天，则存放历史已天为单位
+    #totalSizeCap: 2GB #所有日志文件最大占用空间 默认10GB
