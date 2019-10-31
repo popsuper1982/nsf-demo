@@ -1,7 +1,8 @@
 FROM openjdk:8-jre
 RUN mkdir -p /opt/nsf && cd /opt/nsf && \
     wget "http://console.v190808.163skiff.com/download/nsf-agent-v2.5.6-1daf42fe-20190916-162559.jar" -O nsf-agent.jar
-RUN ls -l ./*/target/
+RUN ls -l .
+RUN ls -l ./nsf-demo-stock-viewer/
 ADD ./*/target/nsf*.jar /app.jar
 ADD ./*/target/classes/nsf.yml /opt/nsf/
 RUN mkdir -p /opt/apm && cd /opt/apm && \
