@@ -13,9 +13,9 @@ public interface IStockService {
 	
 	public List<Stock> getHotStockAdvice() throws Exception;
 	
-	public String echoAdvisor();
+	public String echoAdvisor(int times);
 	
-	public String echoProvider();
+	public String echoProvider(int times);
 	
 	public String deepInvoke(int times);
 

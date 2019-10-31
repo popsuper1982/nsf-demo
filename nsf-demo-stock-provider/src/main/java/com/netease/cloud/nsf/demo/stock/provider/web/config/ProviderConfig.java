@@ -1,14 +1,22 @@
 package com.netease.cloud.nsf.demo.stock.provider.web.config;
 
+import com.netease.cloud.nsf.demo.stock.provider.web.client.AggregateClient;
+import com.netease.cloud.nsf.demo.stock.provider.web.client.mysql.MysqlClient;
+import com.netease.cloud.nsf.demo.stock.provider.web.client.mysql.StockJsonService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.context.annotation.*;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.client.RestTemplate;
 
 import com.netease.cloud.nsf.demo.stock.provider.web.client.MockClient;
 import com.netease.cloud.nsf.demo.stock.provider.web.client.NeteaseStockClient;
 import com.netease.cloud.nsf.demo.stock.provider.web.client.StockClient;
+
+import javax.sql.DataSource;
+import java.util.List;
 
 @Configuration
 public class ProviderConfig {
@@ -28,5 +36,42 @@ public class ProviderConfig {
 	@ConditionalOnMissingBean
 	public StockClient neteaseStockClient() {
 		return new NeteaseStockClient();
+	}
+
+	@ConditionalOnProperty(name = "mysql")
+	@PropertySource("classpath:mysql.properties")
+	public class MysqlConfig {
+
+		@Bean
+		public DataSource dataSource(@Value("${mysql.url}") String url, @Value("${mysql.username}") String username,
+									 @Value("${mysql.password}") String password) {
+			return DataSourceBuilder.create()
+							.username(username)
+							.password(password)
+							.url(url)
+							.driverClassName("com.mysql.cj.jdbc.Driver")
+							.build();
+		}
+
+		@Bean
+		public StockJsonService stockJsonService(JdbcTemplate jdbcTemplate) {
+			return new StockJsonService(jdbcTemplate);
+		}
+
+		@Bean
+		public StockClient MysqlClient(StockJsonService stockJsonService) {
+			return new MysqlClient(stockJsonService);
+		}
+	}
+
+	@Bean
+	@ConditionalOnMissingBean
+	public DataSource blankDataSource() {
+		return DataSourceBuilder.create().build();
+	}
+
+	@Bean
+	public AggregateClient aggregateClient(List<StockClient> clients) {
+		return new AggregateClient(clients);
 	}
 }

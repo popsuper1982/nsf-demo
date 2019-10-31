@@ -6,22 +6,17 @@ import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.stereotype.Component;
 
-import com.netease.cloud.nsf.demo.stock.viewer.web.manager.HttpLogManager;
+import com.netease.cloud.nsf.demo.stock.viewer.web.manager.LogManager;
 
-@Component
 public class TraceHttpInterceptor implements ClientHttpRequestInterceptor {
 
 	private static Logger log = LoggerFactory.getLogger(TraceHttpInterceptor.class);
-
-	@Autowired
-	HttpLogManager logManager;
 	
 	@Override
 	public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution)
@@ -42,7 +37,7 @@ public class TraceHttpInterceptor implements ClientHttpRequestInterceptor {
 		
 		String requestId = UUID.randomUUID().toString();
 		request.getHeaders().set("requestId", requestId);
-		logManager.put(requestId, val);
+		LogManager.put(requestId, val);
 		
 		return response;
 	}

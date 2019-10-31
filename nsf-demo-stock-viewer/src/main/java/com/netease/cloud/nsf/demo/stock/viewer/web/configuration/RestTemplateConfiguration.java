@@ -23,18 +23,14 @@ public class RestTemplateConfiguration {
 		return new RestTemplate();
 	}
 
-	@Autowired
-	TraceHttpInterceptor traceHttpInterceptor;
-
-	@Autowired
-	RestTemplate restTemplate;
-
-	@PostConstruct
-	public void restTemplateInterceptors() {
+	@Bean
+	public TraceHttpInterceptor traceHttpInterceptor(RestTemplate restTemplate) {
+		TraceHttpInterceptor traceHttpInterceptor = new TraceHttpInterceptor();
 		List<ClientHttpRequestInterceptor> interceptors = restTemplate.getInterceptors();
 		if(!interceptors.contains(traceHttpInterceptor)) {
 			interceptors.add(traceHttpInterceptor);
 			restTemplate.setInterceptors(interceptors);
 		}
+		return traceHttpInterceptor;
 	}
 }

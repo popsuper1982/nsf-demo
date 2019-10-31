@@ -6,6 +6,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.netease.cloud.nsf.demo.stock.viewer.web.service.IRandomService;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.concurrent.TimeUnit;
+
 @RestController
 public class RandomController {
 
@@ -22,5 +25,17 @@ public class RandomController {
 	public String getString() {
 		
 		return randomService.getRanomString();
+	}
+
+	/**
+	 * 熔断测试
+	 */
+	int count = 0;
+	@GetMapping("/sleepgw")
+	public String sleepgw(HttpServletRequest request, String msg)  throws InterruptedException {
+		if (count++ % 5 < 3) {
+			TimeUnit.SECONDS.sleep(10);
+		}
+		return "第" + count + "次sleepgw,参数:" + msg + ",响应服务地址:" + request.getServerName() + ":" + request.getServerPort();
 	}
 }

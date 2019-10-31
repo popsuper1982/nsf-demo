@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,11 +16,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+//import com.alibaba.dubbo.config.annotation.Reference;
+//import com.netease.cloud.nsf.demo.stock.api.WallService;
 //import com.netease.cloud.nsf.agent.core.circuitbreaker.NsfRateLimiterInvokeException;
 //import com.netease.cloud.nsf.agent.core.exception.NsfRateLimiterException;
 import com.netease.cloud.nsf.demo.stock.viewer.web.entity.HttpResponse;
 import com.netease.cloud.nsf.demo.stock.viewer.web.entity.Stock;
-import com.netease.cloud.nsf.demo.stock.viewer.web.manager.HttpLogManager;
+import com.netease.cloud.nsf.demo.stock.viewer.web.manager.LogManager;
 import com.netease.cloud.nsf.demo.stock.viewer.web.service.IStockService;
 
 
@@ -34,14 +37,18 @@ public class PanelController {
     @Autowired
     IStockService stockService;
 
-    @Autowired
-    HttpLogManager httpLogManager;
+//    @Reference
+//    WallService wallService;
+    
+    @Value("${dubbo:false}")
+    String dubbo_switch;
     
     @GetMapping(value = {"" , "/index"})
     public String indexPage(){
-        return "index";
+    	if(dubbo_switch != null && dubbo_switch.equals("true")) return "index";
+        return "index_non_dubbo";
     }
-
+    
     @GetMapping(value = "/stocks", produces = "application/json")
     @ResponseBody
     public HttpResponse getStockList(@RequestParam(name = "delay", required = false, defaultValue = "0") int delay) {
@@ -51,7 +58,7 @@ public class PanelController {
             stocks = stockService.getStockList(delay);
         } catch (Exception e) {
             log.warn("get stock list failed ...");
-            log.warn(e.getMessage());
+            log.warn("", e);
             return handleExceptionResponse(e);
         }
         return new HttpResponse(stocks);
@@ -65,7 +72,9 @@ public class PanelController {
         try {
             stocks = stockService.getHotStockAdvice();
         } catch (Exception e) {
+        	e.printStackTrace();
             log.warn("get hot stock advice failed ...");
+            log.warn("", e);
             return handleExceptionResponse(e);
         }
         return new HttpResponse(stocks);
@@ -79,6 +88,7 @@ public class PanelController {
         try {
             stock = stockService.getStockById(stockId);
         } catch (Exception e) {
+        	e.printStackTrace();
             log.warn("get stock[{}] info failed ...", stockId);
         }
         return stock;
@@ -87,29 +97,31 @@ public class PanelController {
     @GetMapping("/logs")
     @ResponseBody
     public HttpResponse getHttpLog() {
-    	return new HttpResponse(httpLogManager.logs());
+    	return new HttpResponse(LogManager.logs());
     }
     
     @GetMapping("/logs/clear")
     @ResponseBody
     public HttpResponse clearLogs() {
-    	httpLogManager.clear();
+    	LogManager.clear();
     	return new HttpResponse("clear logs success");
     }
     
     @GetMapping("/echo/advisor")
     @ResponseBody
-    public HttpResponse echoAdvisor(HttpServletRequest request) {
-    	String result = stockService.echoAdvisor();
-    	httpLogManager.put(UUID.randomUUID().toString(), result);
+    public HttpResponse echoAdvisor(HttpServletRequest request,
+    		@RequestParam(name = "time", defaultValue = "10", required = false) int time) {
+    	String result = stockService.echoAdvisor(time);
+    	LogManager.put(UUID.randomUUID().toString(), result);
     	return new HttpResponse(result);
     }
     
     @GetMapping("/echo/provider")
     @ResponseBody
-    public HttpResponse echoProvider(HttpServletRequest request) {
-    	String result = stockService.echoProvider();
-    	httpLogManager.put(UUID.randomUUID().toString(), result);
+    public HttpResponse echoProvider(HttpServletRequest request,
+    		@RequestParam(name = "time", defaultValue = "10", required = false) int time) {
+    	String result = stockService.echoProvider(time);
+    	LogManager.put(UUID.randomUUID().toString(), result);
     	return new HttpResponse(result);
     }
     

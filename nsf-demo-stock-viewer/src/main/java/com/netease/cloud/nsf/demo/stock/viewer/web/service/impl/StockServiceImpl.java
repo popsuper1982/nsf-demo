@@ -33,7 +33,7 @@ public class StockServiceImpl implements IStockService {
 
     @Value("${stock_predictor_url}")
     String stockPredictorUrl;
-
+    
 	// 超时
     @Override
     public List<Stock> getStockList(int delay) throws Exception {
@@ -85,9 +85,8 @@ public class StockServiceImpl implements IStockService {
     }
     
     @Override
-    public String echoAdvisor() {
+    public String echoAdvisor(int times) {
     	
-    	int times = 10;
     	StringBuilder sBuilder = new StringBuilder();
     	String url = stockAdvisorUrl + "/echo";
     	while(times --> 0) {
@@ -97,13 +96,19 @@ public class StockServiceImpl implements IStockService {
     }
     
     @Override
-    public String echoProvider() {
+    public String echoProvider(int times) {
     	
-    	int times = 10;
     	StringBuilder sBuilder = new StringBuilder();
     	String url = stockProviderUrl + "/echo";
     	while(times --> 0) {
-    		sBuilder.append(restTemplate.getForObject(url + "?p=" + times, String.class));
+    	    String result;
+    	    try{
+    	        result = restTemplate.getForObject(url + "?p=" + times, String.class);
+            }catch (Exception e){
+                result = e.getMessage() + "\r\n";
+            }
+
+    		sBuilder.append(result);
     	}
     	return sBuilder.toString();
     }

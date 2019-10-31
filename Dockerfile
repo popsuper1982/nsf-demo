@@ -1,9 +1,6 @@
 FROM openjdk:8-jre
 RUN mkdir -p /opt/nsf && cd /opt/nsf && \
     wget "http://console.v190808.163skiff.com/download/nsf-agent-v2.5.6-1daf42fe-20190916-162559.jar" -O nsf-agent.jar
-RUN mkdir /test
-COPY . /test/
-RUN ls -l /test/
 COPY ./*/target/nsf-demo-*.jar /app.jar
 COPY ./*/target/classes/nsf.yml /opt/nsf/
 RUN mkdir -p /opt/apm && cd /opt/apm && \

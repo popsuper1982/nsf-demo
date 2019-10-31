@@ -5,9 +5,17 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.netease.cloud.nsf.demo.stock.advisor.web.entity.Stock;
 import com.netease.cloud.nsf.demo.stock.advisor.web.service.IAdvisorService;
@@ -15,6 +23,8 @@ import com.netease.cloud.nsf.demo.stock.advisor.web.service.IAdvisorService;
 @RestController
 public class AdvisorController {
 
+	private static Logger log = LoggerFactory.getLogger(AdvisorController.class);
+	
 	@Autowired
 	IAdvisorService advisorService;
 
@@ -36,7 +46,7 @@ public class AdvisorController {
 
 	@GetMapping("/echo")
 	public String echo(HttpServletRequest request) {
-		
+		log.info("echo advisor invoked");
 		String host = request.getServerName();
 		int port = request.getServerPort();
 		
@@ -75,5 +85,13 @@ public class AdvisorController {
 	@GetMapping("/test2")
 	public String TestApollo2(){
 		return test2;
+	}
+	
+	@GetMapping("/divide")
+	public String divide(HttpServletRequest request) {
+		
+		return advisorService.divide(request);
+
+		
 	}
 }

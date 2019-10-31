@@ -3,6 +3,7 @@ package com.netease.cloud.nsf.demo.stock.provider.web.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.netease.cloud.nsf.demo.stock.provider.web.client.AggregateClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ import com.netease.cloud.nsf.demo.stock.provider.web.util.StringKit;
 public class ProviderServiceImpl implements IProviderService {
 
 	@Autowired
-	StockClient stockClient;
+	AggregateClient client;
 	
 	private static Logger log = LoggerFactory.getLogger(ProviderServiceImpl.class);
 	
@@ -47,7 +48,8 @@ public class ProviderServiceImpl implements IProviderService {
 		Stock stock = null;
 		if(StringKit.isEmpty(stockId)) return stock;
 		try {
-			stock = stockClient.getStockById(stockId);
+			stock = client.getStockById(stockId);
+
 		} catch (Exception e) {
 			log.warn("get stock by id failed ",e);
 		}
@@ -57,10 +59,11 @@ public class ProviderServiceImpl implements IProviderService {
 	@Override
 	public List<Stock> getStocksByIds(String stockIds) {
 
-		List<Stock> stocks = null;
+		List<Stock> stocks = new ArrayList<>();
 		if(StringKit.isEmpty(stockIds)) return stocks;
 		try {
-			stocks = stockClient.getStockBatchByIds(stockIds);
+			List<Stock> tempStocks = client.getStockBatchByIds(stockIds);
+			stocks.addAll(tempStocks);
 		} catch (Exception e) {
 			log.warn("get stocks by ids failed ",e);
 		}
