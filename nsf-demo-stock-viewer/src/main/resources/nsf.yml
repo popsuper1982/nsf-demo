@@ -3,31 +3,22 @@ nsf:
   version: '2.0'
   nsfServer: 'http://nsf-server.v190808.163skiff.com'
   application:
-    name: stock-viewer-zjf
-    version: 1.1.1
-    zone: regionA
-    desc: debug
-    projectCode: zjf
-
-    # 方法配置
+    name: nsf-demo-stock-viewer-test
+    version: 1.0.0
+    projectCode: zjrb-p
+  authority:
+    accessKey: a8f6589edaf742a7a3088a50a318e683
+    secretKey: 9e88974731544a1d8b80a340ab864317
   manager:
     patterns:
       - className: com.netease.cloud.nsf.demo.stock.viewer.web.service.impl.*
-
   config:
     enable: true
-    appId: stock-viewer-zjf
+    appId: stock-viewer-test
     env: dev
-    #    server: http://10.182.2.108:10780/
     namespaces:
       - name: application
-      - name: smoke
         Public: true
-
-  authority:
-    accessKey: 2f839db3dacf40eaa437fe7881434c9e
-    secretKey: bcdf0cea641c4f11bda8c409d3651936
-
   log:
     mode: user  #日志输出模式,默认user. all -都输出  nsf -agent自己处理自己的日志  user -统一输出到用户日志下
     #path: /Users/magi/Git/nsf-demo-stock/logs  # 日志存放目录
