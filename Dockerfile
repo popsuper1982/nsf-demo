@@ -4,9 +4,8 @@ RUN mkdir -p /opt/nsf && cd /opt/nsf && \
 RUN mkdir /test
 COPY . /test/
 RUN ls -l /test/
-RUN ls -l /test/target
-COPY ./target/nsf-demo-*.jar /app.jar
-COPY ./target/classes/nsf.yml /opt/nsf/
+COPY ./*/target/nsf-demo-*.jar /app.jar
+COPY ./*/target/classes/nsf.yml /opt/nsf/
 RUN mkdir -p /opt/apm && cd /opt/apm && \
     wget "http://console.v190808.163skiff.com/download/napm-java-agent-v5.3.3-190825-36860798.tar.gz" -O napm-java-agent.tar.gz  && \
     tar zxvf napm-java-agent.tar.gz 
