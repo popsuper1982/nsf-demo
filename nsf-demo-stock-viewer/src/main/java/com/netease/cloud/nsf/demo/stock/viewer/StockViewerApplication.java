@@ -19,9 +19,9 @@ public class StockViewerApplication extends SpringBootServletInitializer {
         SpringApplication.run(StockViewerApplication.class, args);
     }
     
-//    @Override
-//	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-//		return application.sources(StockViewerApplication.class);
-//	}
+    @Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+		return application.sources(StockViewerApplication.class);
+	}
 
 }
