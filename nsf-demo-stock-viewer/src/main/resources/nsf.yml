@@ -19,7 +19,6 @@ nsf:
     env: dev
     namespaces:
       - name: application
-      - name: smoke
         Public: true
   log:
     mode: user  #日志输出模式,默认user. all -都输出  nsf -agent自己处理自己的日志  user -统一输出到用户日志下
