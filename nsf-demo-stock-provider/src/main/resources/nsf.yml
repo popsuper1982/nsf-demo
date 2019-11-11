@@ -6,10 +6,10 @@ nsf:
     name: stock-provider-cliu8
     version: 1.0.0
     zone: regionA
-    projectCode: cliu8
+    projectCode: zjf
   authority:
-    accessKey: 47a7f62506a44fbba12a515c56d4ccc8
-    secretKey: ab945978b9e146f39f3a5d060faa3946
+    accessKey: 2f839db3dacf40eaa437fe7881434c9e
+    secretKey: bcdf0cea641c4f11bda8c409d3651936
   manager:
     patterns:
       - className: com.netease.cloud.nsf.demo.stock.provider.web.service.impl.*
