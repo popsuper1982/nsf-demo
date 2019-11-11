@@ -18,8 +18,4 @@ public interface IStockService {
 	public String echoProvider(int times);
 	
 	public String deepInvoke(int times);
-
-	public String getMaxSpreadStock();
-
-	public String getPredictPriceById(String stockId);
 }

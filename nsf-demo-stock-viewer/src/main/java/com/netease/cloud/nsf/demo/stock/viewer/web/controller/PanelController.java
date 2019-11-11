@@ -145,32 +145,4 @@ public class PanelController {
         }
         return new HttpResponse(nsfException.getType().getDesc());
     }
-
-    //最大/最小差价
-    @GetMapping("/spread")
-    @ResponseBody
-    public String getMaxSpreadStock() {
-        String MaxSpreadStock=null;
-        try {
-            MaxSpreadStock=stockService.getMaxSpreadStock();
-        }
-        catch (Exception e){
-            log.warn("get max stock spread failed ...");
-        }
-        return MaxSpreadStock;
-    }
-
-    //预测股票数据
-    @GetMapping("/predictPrice/{stockId}")
-    @ResponseBody
-    public String getPredictPriceById(@PathVariable String stockId) {
-        String PredictPrice=null;
-        try {
-            PredictPrice=stockService.getPredictPriceById(stockId);
-        }
-        catch (Exception e){
-            log.warn("get predict stock price failed ...");
-        }
-        return PredictPrice;
-    }
 }

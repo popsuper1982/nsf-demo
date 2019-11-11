@@ -31,9 +31,7 @@ public class StockServiceImpl implements IStockService {
     @Value("${stock_advisor_url}")
     String stockAdvisorUrl;
 
-    @Value("${stock_predictor_url}")
-    String stockPredictorUrl;
-    
+   
 	// 超时
     @Override
     public List<Stock> getStockList(int delay) throws Exception {
@@ -121,22 +119,4 @@ public class StockServiceImpl implements IStockService {
 		} 
 		return "finish";
 	}
-
-    @Override
-    public String getMaxSpreadStock() {
-        log.info("start to get max spread stock ...");
-        String finalUrl =stockPredictorUrl+"/stocks/spread";
-        String spread = restTemplate.getForObject(finalUrl, String.class);
-        log.info("get max spread stock from {} successful : {}", finalUrl, spread);
-        return spread;
-    }
-
-    @Override
-    public String getPredictPriceById(String stockId) {
-        log.info("start to get predict stock price...");
-        String finalUrl =stockPredictorUrl+"/stocks/predictPrice/"+stockId;
-        String predictPrice = restTemplate.getForObject(finalUrl, String.class);
-        log.info("get predict stock price from {} successful : {}", finalUrl, predictPrice);
-        return predictPrice;
-    }
 }
