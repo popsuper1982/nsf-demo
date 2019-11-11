@@ -3,19 +3,19 @@ nsf:
   version: '2.0'
   nsfServer: 'http://nsf-server.v190808.163skiff.com'
   application:
-    name: stock-advisor-test
+    name: stock-advisor-cliu8
     version: 1.0.0
     zone: regionA
-    projectCode: zjrb-p
+    projectCode: cliu8
   authority:
-    accessKey: a8f6589edaf742a7a3088a50a318e683
-    secretKey: 9e88974731544a1d8b80a340ab864317
+    accessKey: 47a7f62506a44fbba12a515c56d4ccc8
+    secretKey: ab945978b9e146f39f3a5d060faa3946
   manager:
     patterns:
       - className: com.netease.cloud.nsf.demo.stock.advisor.web.service.impl.*
   config:
     enable: true
-    appId: stock-advisor-test
+    appId: stock-advisor-cliu8
     env: dev
     namespaces:
       - name: application
